@@ -2,3 +2,10 @@
 plugins {
     alias(libs.plugins.android.application) apply false
 }
+
+// 👇 Esto va fuera del bloque plugins
+buildscript {
+    dependencies {
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.8.3")
+    }
+}

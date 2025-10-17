@@ -1,19 +1,113 @@
 package com.miguel.inmobile.ui.gallery;
 
+import android.app.Application;
+import android.content.SharedPreferences;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.navigation.NavDirections;
 
-public class GalleryViewModel extends ViewModel {
+import com.google.android.gms.common.api.Api;
+import com.miguel.inmobile.modelo.Propietario;
+import com.miguel.inmobile.request.ApiClient;
 
-    private final MutableLiveData<String> mText;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    public GalleryViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("Este es el perfil fragment");
+public class GalleryViewModel extends AndroidViewModel {
+    private MutableLiveData<Propietario> mutPropietario = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mutEstado = new MutableLiveData<>();
+    private MutableLiveData<String> mutTexto = new MutableLiveData<>();
+    private final MutableLiveData<NavDirections> navCommand = new MutableLiveData<>();
+
+    public GalleryViewModel(@NonNull Application application) {
+        super(application);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<NavDirections> getNavCommand() {
+        return navCommand;
+    }
+
+    public LiveData<String> getMutTexto() {
+        return mutTexto;
+    }
+
+    public LiveData<Boolean> getMutEstado() {
+        return mutEstado;
+    }
+
+    public LiveData<Propietario> getMutPropietario(){
+        return mutPropietario;
+    }
+
+    public void guardar(String textoBoton, String nombre, String apellido, String dni, String email, String telefono){
+        if (textoBoton.equalsIgnoreCase("Editar")){
+            mutEstado.setValue(true);
+            mutTexto.setValue("Guardar cambios");
+        }else{
+
+            //falta validar los campos
+            Propietario propietarioActualizado = new Propietario();
+            propietarioActualizado.setIdPropietario(mutPropietario.getValue().getIdPropietario());
+            propietarioActualizado.setNombre(nombre);
+            propietarioActualizado.setApellido(apellido);
+            propietarioActualizado.setDni(dni);
+            propietarioActualizado.setEmail(email);
+            propietarioActualizado.setTelefono(telefono);
+            propietarioActualizado.setClave(null);
+
+
+
+            String token = ApiClient.leerToken(getApplication());
+            Call<Propietario> llamada = ApiClient.getInmobileService().actualizarPropietario("Bearer "+token, propietarioActualizado);
+            llamada.enqueue(new Callback<Propietario>() {
+                @Override
+                public void onResponse(Call<Propietario> call, Response<Propietario> response) {
+                    if (response.isSuccessful()) {
+                        mutPropietario.postValue(response.body());
+
+                    } else {
+                        Toast.makeText(getApplication(), "No se pudo actualizar el propietario: " + response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Propietario> call, Throwable t) {
+                    Toast.makeText(getApplication(), "Error de servidor: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            mutEstado.setValue(false);
+            mutTexto.setValue("Editar");
+        }
+    }
+
+    public void leerPropietario(){
+        String token = ApiClient.leerToken(getApplication());
+        Call<Propietario> llamada = ApiClient.getInmobileService().obtenerPropietario("Bearer "+token);
+        llamada.enqueue(new Callback<Propietario>() {
+            @Override
+            public void onResponse(Call<Propietario> call, Response<Propietario> response) {
+                if (response.isSuccessful()){
+                    mutPropietario.postValue(response.body());
+                } else {
+                    Toast.makeText(getApplication(), "No se pudo obtener el propietario: "+response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Propietario> call, Throwable t) {
+                Toast.makeText(getApplication(), "Error de servidor: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void irACambiarClave() {
+        navCommand.setValue(GalleryFragmentDirections.actionNavGalleryToCambiarClaveFragment());
     }
 }
