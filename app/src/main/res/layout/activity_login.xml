@@ -8,16 +8,18 @@
 
     <EditText
         android:id="@+id/etUser"
-        android:hint="Usuario"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="Usuario"
+        android:text="luisprofessor@gmail.com" />
 
     <EditText
         android:id="@+id/etPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:hint="Contraseña"
         android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:text="DEEKQW" />
 
     <Button
         android:id="@+id/btnLogin"

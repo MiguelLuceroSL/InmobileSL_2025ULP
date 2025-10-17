@@ -16,4 +16,18 @@
     <string name="contratos">Contratos</string>
     <string name="inquilinos">Inquilinos</string>
     <string name="inmuebles">Inmuebles</string>
+    <string name="mi_perfil">Mi Perfil</string>
+    <string name="dni">DNI</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="email">Email</string>
+    <string name="clave">Contraseña</string>
+    <string name="telefono">Teléfono</string>
+    <string name="guardar_cambios">Guardar cambios</string>
+    <string name="editar">Editar</string>
+    <string name="olvide_mi_clave">Olvidé mi contraseña</string>
+    <string name="precio">Precio</string>
+    <string name="tipo">Tipo</string>
+    <string name="direccion">Direccion</string>
+    <string name="cambiar_clave">Cambiar clave</string>
 </resources>

@@ -15,7 +15,21 @@
         android:id="@+id/nav_gallery"
         android:name="com.miguel.inmobile.ui.gallery.GalleryFragment"
         android:label="@string/perfil"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery">
+        <action
+            android:id="@+id/action_nav_gallery_to_cambiarClaveFragment"
+            app:destination="@id/cambiarClaveFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cambiarClaveFragment"
+        android:name="com.miguel.inmobile.ui.cambiarclave.CambiarClaveFragment"
+        android:label="@string/cambiar_clave"
+        tools:layout="@layout/fragment_cambiar_clave">
+        <action
+            android:id="@+id/action_cambiarClaveFragment_to_nav_gallery"
+            app:destination="@id/nav_gallery" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_inmuebles"
