@@ -51,7 +51,20 @@ public class GalleryViewModel extends AndroidViewModel {
             mutTexto.setValue("Guardar cambios");
         }else{
 
-            //falta validar los campos
+            if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || email.isEmpty() || telefono.isEmpty()) {
+                Toast.makeText(getApplication(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!email.contains("@")) {
+                Toast.makeText(getApplication(), "Email inválido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (dni.length() < 7) {
+                Toast.makeText(getApplication(), "DNI inválido", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Propietario propietarioActualizado = new Propietario();
             propietarioActualizado.setIdPropietario(mutPropietario.getValue().getIdPropietario());
             propietarioActualizado.setNombre(nombre);
