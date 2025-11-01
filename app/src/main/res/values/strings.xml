@@ -30,4 +30,5 @@
     <string name="tipo">Tipo</string>
     <string name="direccion">Direccion</string>
     <string name="cambiar_clave">Cambiar clave</string>
+    <string name="agregar_inmueble">Agregar inmueble</string>
 </resources>

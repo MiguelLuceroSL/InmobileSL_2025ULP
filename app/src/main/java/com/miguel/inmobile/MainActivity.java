@@ -23,7 +23,7 @@ import com.miguel.inmobile.databinding.ActivityMainBinding;
 import com.miguel.inmobile.ui.login.LoginActivity;
 import com.miguel.inmobile.ui.login.LoginViewModel;
 import com.miguel.inmobile.ui.main.MainActivityViewModel;
-
+//si
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
+        /*boton flotante
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null)
                         .setAnchorView(R.id.fab).show();
             }
-        });
+        });*/
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         mAppBarConfiguration = new AppBarConfiguration.Builder(
