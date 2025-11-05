@@ -56,13 +56,7 @@ public class LoginViewModel extends AndroidViewModel {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 mError.setValue("¡¡¡Error!!!");
-                Log.e("ErrorP", t.getMessage());
             }
         });
-        //if (user.equals("miguel") && clave.equals("123")) {
-        //    mAbrirMain.setValue("Login hecho");
-        //} else {
-        //    mError.setValue("Usuario o contraseña incorrectos");
-        //}
     }
 }
