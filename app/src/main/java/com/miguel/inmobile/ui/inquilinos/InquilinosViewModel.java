@@ -1,18 +1,31 @@
 package com.miguel.inmobile.ui.inquilinos;
 
+import android.app.Application;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class InquilinosViewModel extends ViewModel {
-    private final MutableLiveData<String> mText;
+import com.miguel.inmobile.modelo.Inquilino;
 
-    public InquilinosViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("Este es el inquilinos fragment");
+public class InquilinosViewModel extends AndroidViewModel {
+
+    private MutableLiveData<Inquilino> inquilinoMutable = new MutableLiveData<>();
+
+    public InquilinosViewModel(@NonNull Application application) {
+        super(application);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<Inquilino> getInquilino() {
+        return inquilinoMutable;
+    }
+
+    public void setInquilino(Bundle bundle) {
+        if (bundle != null) {
+            Inquilino inquilino = (Inquilino) bundle.getSerializable("inquilino");
+            inquilinoMutable.setValue(inquilino);
+        }
     }
 }

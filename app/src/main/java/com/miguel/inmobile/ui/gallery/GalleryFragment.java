@@ -1,20 +1,15 @@
 package com.miguel.inmobile.ui.gallery;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
-
 import com.miguel.inmobile.databinding.FragmentGalleryBinding;
 import com.miguel.inmobile.modelo.Propietario;
-
 public class GalleryFragment extends Fragment {
     private GalleryViewModel vm;
     private FragmentGalleryBinding binding;
@@ -69,19 +64,10 @@ public class GalleryFragment extends Fragment {
                 binding.etTelefono.setEnabled(vm.getMutEstado().getValue());
             }
         });
-
-
-
         vm.getNavCommand().observe(getViewLifecycleOwner(),
                 directions -> NavHostFragment.findNavController(this).navigate(directions)
         );
-
         binding.btnCambiarClave.setOnClickListener(v -> vm.irACambiarClave());
-
-
-
-
-
         return binding.getRoot();
     }
 

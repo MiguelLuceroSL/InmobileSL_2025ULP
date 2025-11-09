@@ -1,41 +1,30 @@
 package com.miguel.inmobile.modelo;
 import java.io.Serializable;
-public class Propietario implements Serializable {
+public class Inquilino implements Serializable {
     //atributos
-    private int idPropietario;
+    private int idInquilino;
     private String nombre;
     private String apellido;
     private String dni;
     private String telefono;
     private String email;
-    private String clave;
-
-    //constructor vacio
-    public Propietario() {
-    }
-
-    //constructor con id
-    public Propietario(int idPropietario) {
-        this.idPropietario = idPropietario;
-    }
 
     //constructor lleno
-    public Propietario(int idPropietario, String nombre, String apellido, String dni, String telefono, String email, String clave) {
-        this.idPropietario = idPropietario;
+    public Inquilino(int idInquilino, String nombre, String apellido, String dni, String telefono, String email) {
+        this.idInquilino = idInquilino;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.telefono = telefono;
         this.email = email;
-        this.clave = clave;
     }
 
     //getters y setters
-    public int getIdPropietario() {
-        return idPropietario;
+    public int getIdInquilino() {
+        return idInquilino;
     }
-    public void setIdPropietario(int idPropietario) {
-        this.idPropietario = idPropietario;
+    public void setIdInquilino(int idInquilino) {
+        this.idInquilino = idInquilino;
     }
     public String getNombre() {
         return nombre;
@@ -67,18 +56,13 @@ public class Propietario implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getClave() {
-        return clave;
-    }
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
 
     //metodos
     @Override
     public String toString() {
-        return "Propietario{" +
-                "nombre='" + nombre + '\'' +
+        return "Inquilino{" +
+                "idInquilino=" + idInquilino +
+                ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", dni='" + dni + '\'' +
                 ", telefono='" + telefono + '\'' +

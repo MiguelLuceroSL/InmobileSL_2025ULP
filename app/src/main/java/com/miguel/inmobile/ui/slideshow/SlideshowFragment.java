@@ -44,7 +44,7 @@ public class SlideshowFragment extends Fragment {
                 .setPositiveButton("Sí", (dialog, which) -> logout())
                 .setNegativeButton("Cancelar", (dialog, which) -> {
                     dialog.dismiss();
-                    Navigation.findNavController(root).navigate(R.id.nav_inquilinos);
+                    Navigation.findNavController(root).navigate(R.id.nav_home);
 
                     Navigation.findNavController(root).popBackStack(R.id.nav_slideshow, true);
                 })

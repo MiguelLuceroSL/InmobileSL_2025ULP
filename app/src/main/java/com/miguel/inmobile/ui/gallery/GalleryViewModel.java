@@ -1,24 +1,16 @@
 package com.miguel.inmobile.ui.gallery;
-
 import android.app.Application;
-import android.content.SharedPreferences;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavDirections;
-
-import com.google.android.gms.common.api.Api;
 import com.miguel.inmobile.modelo.Propietario;
 import com.miguel.inmobile.request.ApiClient;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 public class GalleryViewModel extends AndroidViewModel {
     private MutableLiveData<Propietario> mutPropietario = new MutableLiveData<>();
     private MutableLiveData<Boolean> mutEstado = new MutableLiveData<>();

@@ -1,22 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:background="#F5F5F5"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.inquilinos.InquilinosFragment">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_inquilinos"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        android:padding="20dp"
+        app:cardBackgroundColor="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="15dp">
+
+            <TextView
+                android:id="@+id/tvNombreInquilino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre: "
+                android:textColor="#212121"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvApellidoInquilino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Apellido: "
+                android:textColor="#212121"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvDniInquilino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="DNI: "
+                android:textColor="#444"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvTelefonoInquilino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Teléfono: "
+                android:textColor="#444"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvEmailInquilino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Email: "
+                android:textColor="#444"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</ScrollView>

@@ -1,23 +1,16 @@
 package com.miguel.inmobile.ui.cambiarclave;
-
 import android.app.Application;
-import android.util.Log;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavDirections;
-
 import com.miguel.inmobile.request.ApiClient;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 public class CambiarClaveViewModel extends AndroidViewModel {
-
     private final MutableLiveData<String> mensaje = new MutableLiveData<>();
     private final MutableLiveData<NavDirections> navCommand = new MutableLiveData<>();
 
