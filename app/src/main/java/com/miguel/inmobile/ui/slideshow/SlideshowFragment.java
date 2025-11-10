@@ -19,7 +19,7 @@ import androidx.navigation.Navigation;
 import com.miguel.inmobile.R;
 import com.miguel.inmobile.databinding.FragmentSlideshowBinding;
 import com.miguel.inmobile.ui.login.LoginActivity;
-
+//SALIR
 public class SlideshowFragment extends Fragment {
     private FragmentSlideshowBinding binding;
     private View root;

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import com.miguel.inmobile.databinding.FragmentGalleryBinding;
 import com.miguel.inmobile.modelo.Propietario;
+//PROPIETARIO
 public class GalleryFragment extends Fragment {
     private GalleryViewModel vm;
     private FragmentGalleryBinding binding;

@@ -48,7 +48,11 @@
         android:id="@+id/nav_contratos"
         android:name="com.miguel.inmobile.ui.contratos.ContratosFragment"
         android:label="@string/contratos"
-        tools:layout="@layout/fragment_contratos" />
+        tools:layout="@layout/fragment_contratos" >
+        <action
+            android:id="@+id/action_nav_contratos_to_nav_detalleContrato"
+            app:destination="@id/nav_detalleContrato" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_detalleContrato"
@@ -58,13 +62,23 @@
         <action
             android:id="@+id/action_nav_detalleContrato_to_nav_pagos"
             app:destination="@id/nav_pagos" />
+        <action
+            android:id="@+id/action_nav_detalleContrato_to_nav_contratos"
+            app:destination="@id/nav_contratos" />
+        <action
+            android:id="@+id/action_nav_detalleContrato_to_nav_inquilino"
+            app:destination="@id/nav_inquilino" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_pagos"
         android:name="com.miguel.inmobile.ui.pagos.PagosFragment"
         android:label="Pagos"
-        tools:layout="@layout/fragment_pagos" />
+        tools:layout="@layout/fragment_pagos" >
+        <action
+            android:id="@+id/action_nav_pagos_to_nav_detalleContrato"
+            app:destination="@id/nav_detalleContrato" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"
@@ -93,5 +107,9 @@
         android:id="@+id/nav_inquilino"
         android:name="com.miguel.inmobile.ui.inquilinos.InquilinosFragment"
         android:label="Inquilino"
-        tools:layout="@layout/fragment_inquilinos" />
+        tools:layout="@layout/fragment_inquilinos" >
+        <action
+            android:id="@+id/action_nav_inquilino_to_nav_detalleContrato"
+            app:destination="@id/nav_detalleContrato" />
+    </fragment>
 </navigation>

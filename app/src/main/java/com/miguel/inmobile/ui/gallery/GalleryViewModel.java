@@ -11,6 +11,7 @@ import com.miguel.inmobile.request.ApiClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+//PROPIETARIO
 public class GalleryViewModel extends AndroidViewModel {
     private MutableLiveData<Propietario> mutPropietario = new MutableLiveData<>();
     private MutableLiveData<Boolean> mutEstado = new MutableLiveData<>();
