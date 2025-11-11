@@ -30,9 +30,13 @@ public class DetalleInmuebleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        //inflo el layout y creo el binding
         binding = FragmentDetalleInmuebleBinding.bind(getLayoutInflater().inflate(R.layout.fragment_detalle_inmueble, container, false));
+
+        //creo el viewmodel
         mViewModel = new ViewModelProvider(this).get(DetalleInmuebleViewModel.class);
 
+        //observo el inmueble para mostrar los datos
         mViewModel.getInmuebleMut().observe(getViewLifecycleOwner(), inmueble -> {
             binding.tvIdInmueble.setText(inmueble.getIdInmueble() + "");
             binding.tvDireccionI.setText(inmueble.getDireccion());
@@ -41,6 +45,8 @@ public class DetalleInmuebleFragment extends Fragment {
             binding.tvLatitudI.setText(inmueble.getLatitud() + "");
             binding.tvLongitudI.setText(inmueble.getLongitud() + "");
             binding.tvValorI.setText(inmueble.getValor() + "");
+
+            //cargo la imagen con glide
             Glide.with(this)
                     .load(ApiClient.URLBASE + inmueble.getImagen())
                     .placeholder(R.drawable.inm)
@@ -49,8 +55,11 @@ public class DetalleInmuebleFragment extends Fragment {
             Log.d("Boolean","Estado en el que llega primero: "+inmueble.isDisponible());
             binding.checkDisponible.setChecked(inmueble.isDisponible());
         });
+
+        //obtengo el inmueble del bundle
         mViewModel.obtenerInmueble(getArguments());
 
+        //cuando se toca el check se actualiza el estado
         binding.checkDisponible.setOnClickListener(v -> {
             mViewModel.actualizarInmueble(binding.checkDisponible.isChecked());
         });

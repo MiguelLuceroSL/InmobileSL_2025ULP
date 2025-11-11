@@ -18,13 +18,16 @@ public class InquilinosViewModel extends AndroidViewModel {
         super(application);
     }
 
+    //retorno el live data con el inquilino
     public LiveData<Inquilino> getInquilino() {
         return inquilinoMutable;
     }
 
     public void setInquilino(Bundle bundle) {
+        //si el bundle no es nulo saco el inquilino que vino
         if (bundle != null) {
             Inquilino inquilino = (Inquilino) bundle.getSerializable("inquilino");
+            //guardo el inquilino en el live data
             inquilinoMutable.setValue(inquilino);
         }
     }

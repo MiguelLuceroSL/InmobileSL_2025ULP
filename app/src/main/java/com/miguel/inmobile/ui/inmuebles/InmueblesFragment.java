@@ -27,12 +27,17 @@ public class InmueblesFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        //creo el viewmodel
         vm = new ViewModelProvider(this).get(InmueblesViewModel.class);
+
+        //inflo el layout con binding
         binding = FragmentInmueblesBinding.inflate(inflater, container, false);
 
+        //observo la lista de inmuebles
         vm.getmInmueble().observe(getViewLifecycleOwner(), new Observer<List<Inmueble>>() {
             @Override
             public void onChanged(List<Inmueble> inmuebles) {
+                //cuando cambia la lista actualizo el adapter
                 InmuebleAdapter adapter = new InmuebleAdapter(inmuebles, getContext());
                 GridLayoutManager glm = new GridLayoutManager(getContext(), 2);
                 RecyclerView rv = binding.rvListaInmueble;
@@ -42,6 +47,7 @@ public class InmueblesFragment extends Fragment {
             }
         });
 
+        //boton flotante para agregar inmueble
         binding.fabAgregarInmueble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,9 +55,11 @@ public class InmueblesFragment extends Fragment {
                 navController.navigate(R.id.cargarInmuebleFragment);
             }
         });
+
+        //llamo al metodo que carga los inmuebles
         vm.leerInmuebles();
 
-        return binding.getRoot();
+        return binding.getRoot(); //limpio el binding al destruir la vista
     }
 
     @Override

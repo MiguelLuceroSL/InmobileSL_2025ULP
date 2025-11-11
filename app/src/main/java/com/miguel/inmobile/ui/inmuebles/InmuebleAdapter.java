@@ -25,6 +25,7 @@ public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.Inmueb
     private List<Inmueble> lista;
     private Context context;
 
+    // constructor recibe la lista y el contexto
     public InmuebleAdapter(List<Inmueble> lista, Context context) {
         this.lista = lista;
         this.context = context;
@@ -33,26 +34,29 @@ public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.Inmueb
     @NonNull
     @Override
     public InmuebleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //inflo la vista del item
         View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.inmueble_card, parent, false);
         return new InmuebleViewHolder(vista);
     }
 
     @Override
     public void onBindViewHolder(@NonNull InmuebleViewHolder holder, int position) {
+        //seteo los datos del inmueble en cada card
         String urlBase = "https://inmobiliariaulp-amb5hwfqaraweyga.canadacentral-01.azurewebsites.net/";
         Inmueble i = lista.get(position);
         holder.tvDireccion.setText(i.getDireccion());
         holder.tvTipo.setText(i.getTipo());
         holder.tvPrecio.setText("$"+ i.getValor());
-        Log.d("url", "Esto es completo: "+urlBase +i.getImagen());
-        Log.d("url", "Esto es img sola: "+i.getImagen());
-        Log.d("url", "Esto es url base: "+urlBase);
+
+        //cargo la imagen con glide
         Glide.with(context)
                 .load(urlBase + i.getImagen())
                 .placeholder(R.drawable.inm)
                 .error("null")
 
                 .into(holder.imgInmueble);
+
+        //cuando se toca la card navega al detalle
         holder.cardView.setOnClickListener(v ->{
             Bundle bundle = new Bundle();
             bundle.putSerializable("inmueble", i);
@@ -64,18 +68,16 @@ public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.Inmueb
     @Override
     public int getItemCount() {
         return lista.size();
-    }
+    } //devuelve la cantidad de inmuebles
 
     public class InmuebleViewHolder extends RecyclerView.ViewHolder{
         private TextView tvDireccion, tvTipo, tvPrecio;
         private ImageView imgInmueble;
         private CardView cardView;
 
-
-
-
         public InmuebleViewHolder(@NonNull View itemView) {
             super(itemView);
+            //aca se vinculan los elementos de la vista
             tvDireccion = itemView.findViewById(R.id.tvDireccion);
             tvTipo = itemView.findViewById(R.id.tvTipo);
             tvPrecio = itemView.findViewById(R.id.tvPrecio);

@@ -18,8 +18,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginViewModel extends AndroidViewModel {
-    private MutableLiveData<String> mError = new MutableLiveData<>();
-    private MutableLiveData<String> mAbrirMain = new MutableLiveData<>();
+    private MutableLiveData<String> mError = new MutableLiveData<>(); //esto guarda errores
+    private MutableLiveData<String> mAbrirMain = new MutableLiveData<>(); //indica abrir main
 
 
 
@@ -35,16 +35,21 @@ public class LoginViewModel extends AndroidViewModel {
         return mAbrirMain;
     }
 
+    //metodo para hacer login
     public void login(String user, String clave) {
+        //hago la llamada a la api
         ApiClient.InmobileService api = ApiClient.getInmobileService();
         Call<String> llamada = api.login(user, clave);
         llamada.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
+                    //si esta bien guardo el token
                     String token = response.body();
                     ApiClient.guardarToken(getApplication(), token);
                     mAbrirMain.postValue("Login hecho");
+
+                    //abro la actividad principal
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     getApplication().startActivity(intent);

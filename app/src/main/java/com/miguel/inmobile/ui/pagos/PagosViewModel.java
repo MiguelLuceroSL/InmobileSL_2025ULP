@@ -25,20 +25,28 @@ public class PagosViewModel extends AndroidViewModel {
         super(application);
     }
 
+    //esto devuelve la lista observable de pagos
     public LiveData<List<Pago>> getPagosMutable() {
         if (pagosMutable == null)
             pagosMutable = new MutableLiveData<>();
         return pagosMutable;
     }
 
+    //cargo los pagos desde la api
     public void cargarPagos(Contrato contrato) {
         Log.d("prueba","cargarPagos pago vm");
+        //leo el token
         String token = ApiClient.leerToken(getApplication());
+
+        //llamada a la api
         Call<List<Pago>> call = ApiClient.getInmobileService().obtenerPagosPorContrato("Bearer " + token, contrato.getIdContrato());
+
+        //ejecuto la llamada asincronica
         call.enqueue(new Callback<List<Pago>>() {
             @Override
             public void onResponse(Call<List<Pago>> call, Response<List<Pago>> response) {
                 if (response.isSuccessful()) {
+                    //si sale bien lo guardo en la lista del livedata
                     Log.d("prueba","Pago enviado (pago vm): "+response.body().toString());
                     pagosMutable.postValue(response.body());
                 } else {

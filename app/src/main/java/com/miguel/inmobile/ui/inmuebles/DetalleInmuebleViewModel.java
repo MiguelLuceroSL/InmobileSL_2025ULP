@@ -21,15 +21,17 @@ import retrofit2.Response;
 public class DetalleInmuebleViewModel extends AndroidViewModel {
     private MutableLiveData<Inmueble> inmuebleMut = new MutableLiveData<>();
 
+    //devuelvo el livedata del inmueble
     public LiveData<Inmueble> getInmuebleMut() {
         return inmuebleMut;
     }
 
-
+    //constructor
     public DetalleInmuebleViewModel(@NonNull Application application) {
         super(application);
     }
 
+    //obtengo el inmueble del bundle que viene del fragment anterior
     public void obtenerInmueble(Bundle inmuebleBundle){
         Inmueble inmueble = (Inmueble) inmuebleBundle.getSerializable("inmueble");
 
@@ -39,15 +41,19 @@ public class DetalleInmuebleViewModel extends AndroidViewModel {
 
     }
 
+    //actualizo el estado disponible del inmueble
     public void actualizarInmueble(Boolean disponible){
+        //creo nuevo objeto inmueble
         Inmueble inmueble = new Inmueble();
         inmueble.setDisponible(disponible);
-        Log.d("Boolean","Boolean que llega: "+disponible);
-        Log.d("Boolean","Boolean que se actualiza: "+inmueble.isDisponible());
+
+        //seteo id del inmueble actual
         inmueble.setIdInmueble(this.inmuebleMut.getValue().getIdInmueble());
+
+        //obtengo el token
         String token = ApiClient.leerToken(getApplication());
-        Log.d("Boolean","Token: "+token);
-        Log.d("Boolean","Inmueble que llega: "+inmueble);
+
+        // llamo a la api para actualizar el inmueble
         Call<Inmueble> llamada = ApiClient.getInmobileService().actualizarInmueble("Bearer " + token, inmueble);
         llamada.enqueue(new Callback<Inmueble>() {
             @Override
@@ -57,6 +63,7 @@ public class DetalleInmuebleViewModel extends AndroidViewModel {
                     Toast.makeText(getApplication(), "Inmueble actualizado correctamente", Toast.LENGTH_SHORT).show();
                     //inmueble.setValue(response.body());
                 } else {
+                    //si falla muestro error
                     Toast.makeText(getApplication(), "Error al actualizar el inmueble: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }

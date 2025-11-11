@@ -17,17 +17,23 @@ public class InquilinosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //inflo el layout del fragment
         View root = inflater.inflate(R.layout.fragment_inquilinos, container, false);
 
+        //creo el viewmodel
         vm = new ViewModelProvider(this).get(InquilinosViewModel.class);
+
+        //le paso los datos del inquilino que vinieron por argumento
         vm.setInquilino(getArguments());
 
+        //busco los textview del layout
         TextView tvNombre = root.findViewById(R.id.tvNombreInquilino);
         TextView tvApellido = root.findViewById(R.id.tvApellidoInquilino);
         TextView tvDni = root.findViewById(R.id.tvDniInquilino);
         TextView tvTelefono = root.findViewById(R.id.tvTelefonoInquilino);
         TextView tvEmail = root.findViewById(R.id.tvEmailInquilino);
 
+        //observo el livedata para cuando llega el inquilino muestre los datos
         vm.getInquilino().observe(getViewLifecycleOwner(), inquilino -> {
             tvNombre.setText("Nombre: " + inquilino.getNombre());
             tvApellido.setText("Apellido: " + inquilino.getApellido());
@@ -36,6 +42,6 @@ public class InquilinosFragment extends Fragment {
             tvEmail.setText("Email: " + inquilino.getEmail());
         });
 
-        return root;
+        return root; //retorno la vista
     }
 }

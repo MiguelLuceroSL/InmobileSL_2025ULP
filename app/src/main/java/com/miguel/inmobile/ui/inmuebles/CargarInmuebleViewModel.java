@@ -45,10 +45,13 @@ public class CargarInmuebleViewModel extends AndroidViewModel {
     }
 
     public void recibirFoto(ActivityResult result) {
+        //si selecciono algo
         if (result.getResultCode() == RESULT_OK) {
+            //agarro la uri
             Intent data = result.getData();
             Uri uri = data.getData();
             Log.d("salida", uri.toString());
+            //guardo la uri
             mUri.setValue(uri);
         }
     }
@@ -57,10 +60,12 @@ public class CargarInmuebleViewModel extends AndroidViewModel {
         int superficies, ambientess;
         double precio;
         try{
+            //convierto los datos a numero
             precio = Double.parseDouble(valor);
             superficies = Integer.parseInt(superficie);
             ambientess = Integer.parseInt(ambientes);
 
+            //valido campos
             if(direccion.isEmpty() || valor.isEmpty() || tipo.isEmpty() || uso.isEmpty() || ambientes.isEmpty() || superficie.isEmpty()){
                 Toast.makeText(getApplication(), "Debe ingresar todos los campos", Toast.LENGTH_SHORT).show();
                 return;
@@ -69,6 +74,8 @@ public class CargarInmuebleViewModel extends AndroidViewModel {
                 Toast.makeText(getApplication(), "Debe seleccionar una imagen", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            //creo el objeto inmueble
             Inmueble inmueble = new Inmueble();
             inmueble.setDireccion(direccion);
             inmueble.setValor(precio);
@@ -77,15 +84,25 @@ public class CargarInmuebleViewModel extends AndroidViewModel {
             inmueble.setAmbientes(ambientess);
             inmueble.setSuperficie(superficies);
             inmueble.setDisponible(estado);
-            //convertimos en base a la uri
+
+            //convierto la imagen a bytes
             byte[] imagen = convertirImg();
+
+            //paso el inmueble a json
             String inmuebleJson = new Gson().toJson(inmueble);
+
+            //armo los requestbody
             RequestBody inmuebleBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), inmuebleJson);
             RequestBody imagenBody = RequestBody.create(MediaType.parse("image/jpeg"), imagen);
             MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagen", "imagen.jpg", imagenBody);
 
+            //leo el token
             String token = ApiClient.leerToken(getApplication());
+
+            //hago la llamada a la api
             ApiClient.InmobileService api = ApiClient.getInmobileService();
+
+            //hago la llamada asincronica
             Call<Inmueble> llamada = api.cargarInmueble("Bearer "+token, imagenPart, inmuebleBody);
             llamada.enqueue(new Callback<Inmueble>() {
                 @Override
@@ -114,6 +131,7 @@ public class CargarInmuebleViewModel extends AndroidViewModel {
 
     private byte[] convertirImg(){
         try{
+            //agarro la uri y la paso a bytes
             Uri uri = mUri.getValue();
             InputStream inputStream = getApplication().getContentResolver().openInputStream(uri);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);

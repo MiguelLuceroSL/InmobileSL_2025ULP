@@ -12,12 +12,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 public class LlamarViewModel extends AndroidViewModel implements SensorEventListener {
-    private Sensor acelerometro;
-    private long ultimoTiempo;
-    private float ultimo_x, ultimo_y, ultimo_z;
-    private static final int AGITAR = 600;
-    private MutableLiveData<Boolean> deteccionAgitado;
+    private Sensor acelerometro; //sensor de movimiento
+    private long ultimoTiempo; //tiempo anterior
+    private float ultimo_x, ultimo_y, ultimo_z; //valores previos
+    private static final int AGITAR = 600; //nivel de agite
+    private MutableLiveData<Boolean> deteccionAgitado; //si se agito
 
+    //constructor
     public LlamarViewModel(@NonNull Application application) {
         super(application);
         SensorManager sensorManager = (SensorManager) application.getSystemService(Application.SENSOR_SERVICE);
@@ -43,12 +44,15 @@ public class LlamarViewModel extends AndroidViewModel implements SensorEventList
 
             long tiempoActual = System.currentTimeMillis();
 
+            //controlo tiempo entre lecturas
             if ((tiempoActual - ultimoTiempo) > 100) {
                 long tiempoDiferencia = (tiempoActual - ultimoTiempo);
                 ultimoTiempo = tiempoActual;
 
+                //calculo velocidad
                 float velocidad = Math.abs(x + y + z - ultimo_x - ultimo_y - ultimo_z) / tiempoDiferencia * 10000;
 
+                //si se agito fuerte
                 if (velocidad > AGITAR) {
                     deteccionAgitado.setValue(true);
                     enviarBroadcastDeteccionAgitado();
@@ -56,6 +60,7 @@ public class LlamarViewModel extends AndroidViewModel implements SensorEventList
                     deteccionAgitado.setValue(false);
                 }
 
+                //guardo los valores
                 ultimo_x = x;
                 ultimo_y = y;
                 ultimo_z = z;
@@ -69,12 +74,14 @@ public class LlamarViewModel extends AndroidViewModel implements SensorEventList
     @Override
     protected void onCleared() {
         super.onCleared();
+        //aca deja de escuchar el sensor
         SensorManager sensorManager = (SensorManager) getApplication().getSystemService(Application.SENSOR_SERVICE);
         if (sensorManager != null) {
             sensorManager.unregisterListener(this);
         }
     }
 
+    //manda el broadcast
     private void enviarBroadcastDeteccionAgitado() {
         Intent intent = new Intent(getApplication().getApplicationContext(), LlamadaBroadcast.class);
         intent.putExtra("deteccion_agitado", true);

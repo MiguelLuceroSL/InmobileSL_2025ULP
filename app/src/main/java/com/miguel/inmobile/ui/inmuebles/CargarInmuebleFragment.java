@@ -39,9 +39,16 @@ public class CargarInmuebleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        //inflo el xml del fragment
         binding = FragmentCargarInmuebleBinding.inflate(getLayoutInflater());
+
+        //creo el viewmodel
         mViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(CargarInmuebleViewModel.class);
+
+        //configuro la galeria
         abrirGaleria();
+
+        //cuando toco el boton abre la galeria
         binding.btnSubirImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,6 +56,7 @@ public class CargarInmuebleFragment extends Fragment {
             }
         });
 
+        //cuando toco guardar manda los datos al viewmodel
         binding.btguardarinmu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,12 +74,15 @@ public class CargarInmuebleFragment extends Fragment {
     }
 
     private void abrirGaleria() {
-
+        //armo el intent para abrir galeria
         intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        //registro el resultado de la galeria
         arl = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
                 Log.d("imagen","RESULT: "+ result);
+                //cuando cambia la imagen se muestra
                 mViewModel.getmUri().observe(getViewLifecycleOwner(), new Observer<Uri>() {
                     @Override
                     public void onChanged(Uri uri) {
@@ -79,6 +90,7 @@ public class CargarInmuebleFragment extends Fragment {
                     }
                 });
 
+                //le paso la foto al viewmodel
                 mViewModel.recibirFoto(result);
 
             }

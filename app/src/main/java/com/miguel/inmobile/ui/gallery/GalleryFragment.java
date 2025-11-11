@@ -12,16 +12,19 @@ import com.miguel.inmobile.databinding.FragmentGalleryBinding;
 import com.miguel.inmobile.modelo.Propietario;
 //PROPIETARIO
 public class GalleryFragment extends Fragment {
-    private GalleryViewModel vm;
-    private FragmentGalleryBinding binding;
+    private GalleryViewModel vm; //viewmodel q maneja la logica
+    private FragmentGalleryBinding binding; //binding del layout
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        //inflo el layout y obtengo el viewmodel
         GalleryViewModel galleryViewModel =
                 new ViewModelProvider(this).get(GalleryViewModel.class);
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(GalleryViewModel.class);
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
 
+        //observo los datos del propietario para mostrarlos en pantalla
         vm.getMutPropietario().observe(getViewLifecycleOwner(), new Observer<Propietario>() {
             @Override
             public void onChanged(Propietario propietario) {
@@ -33,6 +36,7 @@ public class GalleryFragment extends Fragment {
             }
         });
 
+        //observo el estado de los campos (si se pueden editar o no)
         vm.getMutEstado().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -40,6 +44,7 @@ public class GalleryFragment extends Fragment {
             }
         });
 
+        //aca observo el texto del boton (cambia entre editar y guardar cambios)
         vm.getMutTexto().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -47,7 +52,10 @@ public class GalleryFragment extends Fragment {
             }
         });
 
+        //cargo los datos del propietario apenas se abre
         vm.leerPropietario();
+
+        // cuando toca el btn editar, o habilita campos o guarda cambios
         binding.btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,7 +65,10 @@ public class GalleryFragment extends Fragment {
                 String email = binding.etEmail.getText().toString();
                 String telefono = binding.etTelefono.getText().toString();
 
+                //mando los datos al viewmodel para q maneje la logica
                 vm.guardar(binding.btnEditar.getText().toString(), nombre, apellido, dni, email, telefono);
+
+                //actualizo el estado de los campos segun lo q diga el vm
                 binding.etNombre.setEnabled(vm.getMutEstado().getValue());
                 binding.etApellido.setEnabled(vm.getMutEstado().getValue());
                 binding.etDni.setEnabled(vm.getMutEstado().getValue());
@@ -65,9 +76,13 @@ public class GalleryFragment extends Fragment {
                 binding.etTelefono.setEnabled(vm.getMutEstado().getValue());
             }
         });
+
+        //para navegar cuando se cambie de fragment desde el vm
         vm.getNavCommand().observe(getViewLifecycleOwner(),
                 directions -> NavHostFragment.findNavController(this).navigate(directions)
         );
+
+        //boton q lleva a cambiar clave
         binding.btnCambiarClave.setOnClickListener(v -> vm.irACambiarClave());
         return binding.getRoot();
     }
@@ -75,6 +90,6 @@ public class GalleryFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+        binding = null; //limpio el binding para evitar leaks, como fuga de memoria es
     }
 }

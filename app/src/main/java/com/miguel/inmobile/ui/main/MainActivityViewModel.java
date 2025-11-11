@@ -18,7 +18,7 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public void onMenuItemSelected(int itemId) {
-        // Siempre que se seleccione algo, emitís la acción de cerrar el drawer
+        //siempre que se seleccione algo hago la accion de cerrar el drawer
         action.setValue(() -> {});
     }
 }

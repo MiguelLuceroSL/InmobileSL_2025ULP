@@ -22,6 +22,7 @@ public class InmueblesViewModel extends AndroidViewModel {
     private final MutableLiveData<String> mText = new MutableLiveData<>();
     private final MutableLiveData<List<Inmueble>> mInmueble = new MutableLiveData<>();
 
+    //constructor inicializa y carga los inmuebles
     public InmueblesViewModel(@NonNull Application application) {
         super(application);
         leerInmuebles();
@@ -29,7 +30,7 @@ public class InmueblesViewModel extends AndroidViewModel {
 
     public LiveData<String> getmText() {
         return mText;
-    }
+    } //devuelve la lista de inmuebles
 
     public LiveData<List<Inmueble>> getmInmueble() {
         return mInmueble;
@@ -39,22 +40,31 @@ public class InmueblesViewModel extends AndroidViewModel {
         return mText;
     }
 
+    //metodo para pedir los inmuebles a la api
     public void leerInmuebles(){
+        //recupero token
         String token = ApiClient.leerToken(getApplication());
+
+        //llamada a la api
         ApiClient.InmobileService api = ApiClient.getInmobileService();
         Call<List<Inmueble>> llamada = api.obtenerInmuebles("Bearer "+token);
+
+        //hago la llamada asincronica
         llamada.enqueue(new Callback<List<Inmueble>>() {
             @Override
             public void onResponse(Call<List<Inmueble>> call, Response<List<Inmueble>> response) {
                 if (response.isSuccessful()){
+                    //si sale bien actualizo la lista
                     mInmueble.postValue(response.body());
                 } else {
+                    //si no hay datos muestro mensaje
                     Toast.makeText(getApplication(), "No hay inmuebles disponibles: "+response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Inmueble>> call, Throwable t) {
+                //si falla el servidor muestro error
                 Toast.makeText(getApplication(), "Error en servidor: "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

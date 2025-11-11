@@ -14,8 +14,8 @@ import retrofit2.Response;
 //PROPIETARIO
 public class GalleryViewModel extends AndroidViewModel {
     private MutableLiveData<Propietario> mutPropietario = new MutableLiveData<>();
-    private MutableLiveData<Boolean> mutEstado = new MutableLiveData<>();
-    private MutableLiveData<String> mutTexto = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mutEstado = new MutableLiveData<>(); //true = editable
+    private MutableLiveData<String> mutTexto = new MutableLiveData<>(); //texto del boton
     private final MutableLiveData<NavDirections> navCommand = new MutableLiveData<>();
 
     public GalleryViewModel(@NonNull Application application) {
@@ -38,12 +38,15 @@ public class GalleryViewModel extends AndroidViewModel {
         return mutPropietario;
     }
 
+    //guarda cambios o habilita edicion segun el texto del boton
     public void guardar(String textoBoton, String nombre, String apellido, String dni, String email, String telefono){
         if (textoBoton.equalsIgnoreCase("Editar")){
+            //si esta en modo editar habilito los campos
             mutEstado.setValue(true);
             mutTexto.setValue("Guardar cambios");
         }else{
 
+            //validaciones
             if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || email.isEmpty() || telefono.isEmpty()) {
                 Toast.makeText(getApplication(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
                 return;
@@ -58,6 +61,8 @@ public class GalleryViewModel extends AndroidViewModel {
                 Toast.makeText(getApplication(), "DNI inválido", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            //creo el objeto con los nuevos datos
             Propietario propietarioActualizado = new Propietario();
             propietarioActualizado.setIdPropietario(mutPropietario.getValue().getIdPropietario());
             propietarioActualizado.setNombre(nombre);
@@ -65,16 +70,16 @@ public class GalleryViewModel extends AndroidViewModel {
             propietarioActualizado.setDni(dni);
             propietarioActualizado.setEmail(email);
             propietarioActualizado.setTelefono(telefono);
-            propietarioActualizado.setClave(null);
+            propietarioActualizado.setClave(null); // la clave no se toca aca
 
-
-
+            // llamo al endpoint para actualizar los datos
             String token = ApiClient.leerToken(getApplication());
             Call<Propietario> llamada = ApiClient.getInmobileService().actualizarPropietario("Bearer "+token, propietarioActualizado);
             llamada.enqueue(new Callback<Propietario>() {
                 @Override
                 public void onResponse(Call<Propietario> call, Response<Propietario> response) {
                     if (response.isSuccessful()) {
+                        // si esta bien actualizo el LiveData
                         mutPropietario.postValue(response.body());
 
                     } else {
@@ -87,11 +92,13 @@ public class GalleryViewModel extends AndroidViewModel {
                     Toast.makeText(getApplication(), "Error de servidor: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+            //vuelvo a modo lectura
             mutEstado.setValue(false);
             mutTexto.setValue("Editar");
         }
     }
 
+    //trae los datos del propietario logueado
     public void leerPropietario(){
         String token = ApiClient.leerToken(getApplication());
         Call<Propietario> llamada = ApiClient.getInmobileService().obtenerPropietario("Bearer "+token);
@@ -113,6 +120,7 @@ public class GalleryViewModel extends AndroidViewModel {
 
     }
 
+    //navega al fragment de cambiar clave
     public void irACambiarClave() {
         navCommand.setValue(GalleryFragmentDirections.actionNavGalleryToCambiarClaveFragment());
     }

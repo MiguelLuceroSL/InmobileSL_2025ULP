@@ -27,6 +27,7 @@ public class SlideshowFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        //inflo el layout del fragment
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         root = binding.getRoot();
         return root;
@@ -36,13 +37,14 @@ public class SlideshowFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (binding == null) return; //por si el fragmento ya se destruyó
+        if (binding == null) return; //por si el fragmento ya se destruyo, si es null no hace nada
 
+        //muestro un dialogo para confirmar si quiere salir
         new AlertDialog.Builder(requireContext())
                 .setTitle("Confirmación de salida")
                 .setMessage("¿Desea cerrar sesión?")
-                .setPositiveButton("Sí", (dialog, which) -> logout())
-                .setNegativeButton("Cancelar", (dialog, which) -> {
+                .setPositiveButton("Sí", (dialog, which) -> logout()) //si elige si llama a logout
+                .setNegativeButton("Cancelar", (dialog, which) -> { //si cancela vuelve al home
                     dialog.dismiss();
                     Navigation.findNavController(root).navigate(R.id.nav_home);
 
@@ -52,12 +54,17 @@ public class SlideshowFragment extends Fragment {
     }
 
     private void logout() {
+        //borro el token guardado en las preferencias
         SharedPreferences prefs = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
         prefs.edit().remove("token").apply();
+
+        //creo el intent para ir al login
         Intent intent = new Intent(getActivity(), LoginActivity.class);
+
+        //limpio la pila de actividades
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        requireActivity().finish();
+        startActivity(intent); //inicio la activity de login
+        requireActivity().finish(); //finalizo la activity actual
     }
 
     @Override

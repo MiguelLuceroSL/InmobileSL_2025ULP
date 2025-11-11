@@ -15,13 +15,19 @@ public class CambiarClaveFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //inflo el layout del fragment
         View v = inflater.inflate(R.layout.fragment_cambiar_clave, container, false);
+
+        //obtengo el viewmodel asociado
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(CambiarClaveViewModel.class);
+
+        //aca vinculo los campos del xml con los del codigo
         EditText etActual = v.findViewById(R.id.etClaveActual);
         EditText etNueva = v.findViewById(R.id.etClaveNueva);
         EditText etRepetir = v.findViewById(R.id.etClaveRepetir);
         Button btnCambiar = v.findViewById(R.id.btnGuardarClave);
 
+        //cuando se toca el boton llamo al metodo cambiarClave del viewmodel
         btnCambiar.setOnClickListener(b ->
                 vm.cambiarClave(
                         etActual.getText().toString(),
@@ -30,13 +36,17 @@ public class CambiarClaveFragment extends Fragment {
                 )
         );
 
+        //observo el mensaje que manda el viewmodel y lo muestro con un toast
         vm.getMensaje().observe(getViewLifecycleOwner(),
                 msg -> Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
         );
 
+        //aca observo si el viewmodel manda una navegacion y la ejecuto
         vm.getNavCommand().observe(getViewLifecycleOwner(),
                 directions -> NavHostFragment.findNavController(this).navigate(directions)
         );
+
+        //devuelvo la vista
         return v;
     }
 }
