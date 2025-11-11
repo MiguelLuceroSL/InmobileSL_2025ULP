@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.miguel.inmobile.R;
 import com.miguel.inmobile.databinding.FragmentCargarInmuebleBinding;
@@ -39,6 +40,19 @@ public class CargarInmuebleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        //opciones de los spinners
+        String[] usos = {"Residencial", "Comercial", "Industrial", "Oficina", "Educativo", "Sanitario", "Recreativo", "Rural", "Turístico"};
+        String[] tipos = {"Casa", "Departamento", "Local", "Oficina", "Depósito", "Edificio", "Cabaña", "Terreno"};
+
+        //adapters para los spinners
+        ArrayAdapter<String> usoAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, usos);
+        usoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spUso.setAdapter(usoAdapter);
+
+        ArrayAdapter<String> tipoAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, tipos);
+        tipoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spTipo.setAdapter(tipoAdapter);
+
         //inflo el xml del fragment
         binding = FragmentCargarInmuebleBinding.inflate(getLayoutInflater());
 
@@ -62,8 +76,8 @@ public class CargarInmuebleFragment extends Fragment {
             public void onClick(View view) {
                 mViewModel.cargarInmueble(binding.etdireccion.getText().toString(),
                         binding.etprecio.getText().toString(),
-                        binding.ettipo.getText().toString(),
-                        binding.etuso.getText().toString(),
+                        binding.spUso.getSelectedItem().toString(),
+                        binding.spTipo.getSelectedItem().toString(),
                         binding.etambientes.getText().toString(),
                         binding.etsuperficie.getText().toString(),
                         binding.cbdisponible.isChecked());
