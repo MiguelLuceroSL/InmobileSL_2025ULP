@@ -44,6 +44,9 @@ public class CargarInmuebleFragment extends Fragment {
         String[] usos = {"Residencial", "Comercial", "Industrial", "Oficina", "Educativo", "Sanitario", "Recreativo", "Rural", "Turístico"};
         String[] tipos = {"Casa", "Departamento", "Local", "Oficina", "Depósito", "Edificio", "Cabaña", "Terreno"};
 
+        //inflo el xml del fragment
+        binding = FragmentCargarInmuebleBinding.inflate(inflater, container, false);
+
         //adapters para los spinners
         ArrayAdapter<String> usoAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, usos);
         usoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -52,9 +55,6 @@ public class CargarInmuebleFragment extends Fragment {
         ArrayAdapter<String> tipoAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, tipos);
         tipoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spTipo.setAdapter(tipoAdapter);
-
-        //inflo el xml del fragment
-        binding = FragmentCargarInmuebleBinding.inflate(getLayoutInflater());
 
         //creo el viewmodel
         mViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(CargarInmuebleViewModel.class);
@@ -80,6 +80,8 @@ public class CargarInmuebleFragment extends Fragment {
                         binding.spTipo.getSelectedItem().toString(),
                         binding.etambientes.getText().toString(),
                         binding.etsuperficie.getText().toString(),
+                        binding.etlatitud.getText().toString(),
+                        binding.etlongitud.getText().toString(),
                         binding.cbdisponible.isChecked());
             }
         });

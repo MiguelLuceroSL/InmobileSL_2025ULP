@@ -56,7 +56,7 @@ public class CargarInmuebleViewModel extends AndroidViewModel {
         }
     }
 
-    public void cargarInmueble(String direccion, String valor, String tipo, String uso, String ambientes, String superficie, Boolean estado){
+    public void cargarInmueble(String direccion, String valor, String tipo, String uso, String ambientes, String superficie, String latitud, String longitud, Boolean estado){
         int superficies, ambientess;
         double precio;
         try{
@@ -84,6 +84,8 @@ public class CargarInmuebleViewModel extends AndroidViewModel {
             inmueble.setAmbientes(ambientess);
             inmueble.setSuperficie(superficies);
             inmueble.setDisponible(estado);
+            inmueble.setLatitud(Double.parseDouble(latitud));
+            inmueble.setLongitud(Double.parseDouble(longitud));
 
             //convierto la imagen a bytes
             byte[] imagen = convertirImg();
